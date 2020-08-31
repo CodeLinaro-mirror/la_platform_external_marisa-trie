@@ -30,7 +30,7 @@ class Clock {
 
   double elasped() const {
     std::clock_t cur = std::clock();
-    return 1.0 * (cur - cl_) / CLOCKS_PER_SEC;
+    return static_cast<double>(cur - cl_) / static_cast<double>(CLOCKS_PER_SEC);
   }
 
  private:
@@ -45,7 +45,7 @@ void print_help(const char *cmd) {
       << "] (default: 1)\n"
       "  -n, --max-num-tries=[N]  limit the number of tries"
       " [" << MARISA_MIN_NUM_TRIES << ", " << MARISA_MAX_NUM_TRIES
-      << "] (default: 10)\n"
+      << "] (default: 5)\n"
       "  -t, --text-tail      build a dictionary with text TAIL (default)\n"
       "  -b, --binary-tail    build a dictionary with binary TAIL\n"
       "  -w, --weight-order   arrange siblings in weight order (default)\n"
@@ -118,13 +118,14 @@ void print_time_info(std::size_t num_keys, double elasped) {
     if (elasped == 0.0) {
       std::printf(" %8s", "-");
     } else {
-      std::printf(" %8.2f", num_keys / elasped / 1000.0);
+      std::printf(" %8.2f", static_cast<double>(num_keys) / elasped / 1000.0);
     }
   } else {
     if ((elasped == 0.0) || (num_keys == 0)) {
       std::printf(" %8s", "-");
     } else {
-      std::printf(" %8.1f", 1000000000.0 * elasped / num_keys);
+      std::printf(" %8.1f",
+          1000000000.0 * elasped / static_cast<double>(num_keys));
     }
   }
 }
@@ -414,5 +415,6 @@ int main(int argc, char *argv[]) {
     }
   }
   print_config();
-  return benchmark(cmdopt.argv + cmdopt.optind, cmdopt.argc - cmdopt.optind);
+  return benchmark(cmdopt.argv + cmdopt.optind,
+      static_cast<std::size_t>(cmdopt.argc - cmdopt.optind));
 }

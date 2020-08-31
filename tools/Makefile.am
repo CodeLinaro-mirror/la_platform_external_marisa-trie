@@ -1,6 +1,7 @@
-AM_CFLAGS = -Wall -Wextra
-AM_CXXFLAGS = -Wall -Weffc++ -Wextra -I${top_srcdir}/lib
-#AM_CXXFLAGS = -Wall -Weffc++ -Wextra -D_DEBUG -I${top_srcdir}/lib
+MY_INCLUDE = -I$(top_srcdir)/include -I$(top_srcdir)/lib
+MY_LIBS = $(top_srcdir)/lib/marisa/libmarisa.la libcmdopt.la
+
+AM_CXXFLAGS = -Wall -Weffc++ -Wextra -Wconversion $(MY_INCLUDE)
 
 noinst_LTLIBRARIES = libcmdopt.la
 
@@ -18,22 +19,22 @@ bin_PROGRAMS = \
   marisa-benchmark
 
 marisa_build_SOURCES = marisa-build.cc
-marisa_build_LDADD = ../lib/libmarisa.la libcmdopt.la
+marisa_build_LDADD = $(MY_LIBS)
 
 marisa_lookup_SOURCES = marisa-lookup.cc
-marisa_lookup_LDADD = ../lib/libmarisa.la libcmdopt.la
+marisa_lookup_LDADD = $(MY_LIBS)
 
 marisa_reverse_lookup_SOURCES = marisa-reverse-lookup.cc
-marisa_reverse_lookup_LDADD = ../lib/libmarisa.la libcmdopt.la
+marisa_reverse_lookup_LDADD = $(MY_LIBS)
 
 marisa_common_prefix_search_SOURCES = marisa-common-prefix-search.cc
-marisa_common_prefix_search_LDADD = ../lib/libmarisa.la libcmdopt.la
+marisa_common_prefix_search_LDADD = $(MY_LIBS)
 
 marisa_predictive_search_SOURCES = marisa-predictive-search.cc
-marisa_predictive_search_LDADD = ../lib/libmarisa.la libcmdopt.la
+marisa_predictive_search_LDADD = $(MY_LIBS)
 
 marisa_dump_SOURCES = marisa-dump.cc
-marisa_dump_LDADD = ../lib/libmarisa.la libcmdopt.la
+marisa_dump_LDADD = $(MY_LIBS)
 
 marisa_benchmark_SOURCES = marisa-benchmark.cc
-marisa_benchmark_LDADD = ../lib/libmarisa.la libcmdopt.la
+marisa_benchmark_LDADD = $(MY_LIBS)

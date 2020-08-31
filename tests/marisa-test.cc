@@ -204,11 +204,12 @@ void MakeKeyset(std::size_t num_keys, marisa::TailMode tail_mode,
     marisa::Keyset *keyset) {
   char key_buf[16];
   for (std::size_t i = 0; i < num_keys; ++i) {
-    const std::size_t length = std::rand() % sizeof(key_buf);
+    const std::size_t length =
+        static_cast<std::size_t>(std::rand()) % sizeof(key_buf);
     for (std::size_t j = 0; j < length; ++j) {
       key_buf[j] = (char)(std::rand() % 10);
       if (tail_mode == MARISA_TEXT_TAIL) {
-        key_buf[j] += '0';
+        key_buf[j] = static_cast<char>(key_buf[j] + '0');
       }
     }
     keyset->push_back(key_buf, length);

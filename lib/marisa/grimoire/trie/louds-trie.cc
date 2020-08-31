@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <functional>
 #include <queue>
 
 #include "marisa/grimoire/algorithm.h"
@@ -300,7 +301,7 @@ void LoudsTrie::build_trie(Vector<T> &keys,
   }
 
   if (next_trie_.get() != NULL) {
-    config_.parse((next_trie_->num_tries() + 1) |
+    config_.parse(static_cast<int>((next_trie_->num_tries() + 1)) |
         next_trie_->tail_mode() | next_trie_->node_order());
   } else {
     config_.parse(1 | tail_.mode() | config.node_order() |
@@ -399,7 +400,8 @@ void LoudsTrie::build_current_trie(Vector<T> &keys,
           keys[w_range.begin()][w_range.key_pos()]);
 
       if (key_pos == w_range.key_pos() + 1) {
-        bases_.push_back(keys[w_range.begin()][w_range.key_pos()]);
+        bases_.push_back(static_cast<unsigned char>(
+            keys[w_range.begin()][w_range.key_pos()]));
         link_flags_.push_back(false);
       } else {
         bases_.push_back('\0');
